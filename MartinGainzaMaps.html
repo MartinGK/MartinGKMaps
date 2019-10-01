@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
     <!-- Leaflet javascript -->
     <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
-    <title>Prueba</title>
+    <title>Aeroterra Test</title>
 </head>
 
 <body>
@@ -26,7 +26,7 @@
                 <form action="#" class="float-right py-4 px-5 formulario w-100 h-100 m-0" role="form" id="formulario">
                     <div class="form-group">
                         <label for="nombre">Nombre</label>
-                        <input class="form-control" id="nombre" placeholder="ej:Av. E. Madero 1020" required>
+                        <input class="form-control" id="nombre" value="Martin" placeholder="ej:Av. E. Madero 1020" required>
                     </div>
 
                     <div class="form-group">
@@ -41,9 +41,9 @@
 
                     <div class="form-group">
                         <label for="categoria">Categoría</label>
-                        <select class="form-control select" id="categoria" required>
-                        <option value="" disabled selected>Seleccionar</option>
-                        <option >Comercial</option>
+                        <select class="form-control select" id="categoria" title="Seleccionar" required>
+                        <option value="" disabled>Seleccionar</option>
+                        <option selected>Comercial</option>
                         <option>Residencial</option>
                         <option>Mixta</option>
                     </select>
@@ -51,10 +51,10 @@
 
                     <div class="form-group">
                         <label for="coord">Coord.</label>
-                        <input class="form-control" id="coord" placeholder="ej:-34.5966417, -58.374097" required>
+                        <input class="form-control" value="-34.597875, -58.369434" id="coord" placeholder="ej:-34.5966417, -58.374097" required>
                     </div>
                     <div class="form-group">
-                        <input type="submit" class="float-right btn btn-success" />
+                        <input type="submit" value="Agregar" class="float-right btn btn-success boton_submit" />
                     </div>
                 </form>
             </div>
@@ -84,10 +84,24 @@
             border-radius: 5px;
         }
         
-        #pagina {
-            display: inline-block;
-            position: relative;
-            height: 100%;
+        #map {
+            cursor: pointer;
+        }
+        
+        #categoria {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            -ms-appearance: none;
+            appearance: none;
+            box-shadow: none;
+            border: 0 !important;
+            background-image: none;
+            background: url("https://cdn4.iconfinder.com/data/icons/blue-set/64/15-512.png") 100% / 18% no-repeat #eee;
+        }
+        
+        #coord {
+            background: url("https://cdn4.iconfinder.com/data/icons/small-n-flat/24/map-512.png") 98% / 13% no-repeat #eee;
+            height: 45px;
         }
     </style>
 </body>
