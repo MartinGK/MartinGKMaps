@@ -1,4 +1,4 @@
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -72,6 +72,43 @@
                 'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
             id: 'mapbox.streets'
         }).addTo(mymap);
+
+        //Verificaciones 1
+        document.getElementById("telefono").onchange = function() {
+            if ((document.getElementById("telefono").value).match(/[^0-9\s-]/g) != null) {
+                console.log((document.getElementById("telefono").value).match(/[^0-9\s-]/g))
+                document.getElementById("telefono").setCustomValidity("El telefono permite solo numeros");
+            } else {
+                document.getElementById("telefono").setCustomValidity("");
+            }
+        };
+        //Verificaciones 2
+        document.getElementById("coord").onchange = function() {
+            let analizar = document.getElementById("coord").value;
+            if (analizar.split(",").length != 2) {
+                document.getElementById("coord").setCustomValidity("Porfavor siga el ejemplo: 'X,Y'");
+            } else {
+                let XY = analizar.split(",")
+                let X = parseFloat(XY[0])
+                let Y = parseFloat(XY[1])
+                if (typeof(X) != "number" || X > 180 || X < -180 || typeof(Y) != "number" || Y > 90 || Y < -90) {
+                    document.getElementById("coord").setCustomValidity("Porfavor ingrese dos numeros entre X: -180 y 180 y Y: -90 y 90");
+                } else {
+                    document.getElementById("coord").setCustomValidity("");
+                }
+            }
+
+        };
+        //Toma de datos
+        document.getElementById("formulario").onsubmit = function() {
+
+            let nombre = document.getElementById("nombre").value
+            let direccion = document.getElementById("direccion").value
+            let telefono = document.getElementById("telefono").value
+            let categoria = document.getElementById("categoria").value
+            let coord = (document.getElementById("coord").value).split(",")
+
+        }
     </script>
     <style>
         .formulario {
