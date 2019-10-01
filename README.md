@@ -1,2 +1,2 @@
 # MartinGKMaps
-Test for Aeroterra by Martin GK
+Frontend test for Aeroterra by Martin GK
