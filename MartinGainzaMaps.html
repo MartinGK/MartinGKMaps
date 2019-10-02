@@ -1,4 +1,4 @@
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -63,6 +63,14 @@
     <!-- Script del mapa -->
     <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
     <script>
+        // if(localStorage.getItem('circulos')){
+        //     circulos = JSON.parse(localStorage.getItem('circulos'))
+        // } else{
+        //     circulos = [];   
+        // }
+        var circulos = [];
+        var idElim = 0;
+
         var mymap = L.map('map').setView([-34.5966417, -58.374097], 16);
 
         L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
@@ -108,6 +116,69 @@
             let categoria = document.getElementById("categoria").value
             let coord = (document.getElementById("coord").value).split(",")
 
+            agregarCirculo(coord[0], coord[1], nombre, direccion, telefono, categoria);
+
+        }
+
+        function agregarCirculo(X, Y, nombre, direccion, telefono, categoria) {
+            var circle = L.circle([parseFloat(X), parseFloat(Y)], {
+                color: 'red',
+                fillColor: '#8400D3',
+                fillOpacity: 0.5,
+                radius: 10,
+
+            });
+
+            circle.bindPopup("<div><b>Descripción:</b>" + nombre + "<br><b>Dirección:</b>" + direccion + "<br><b>Telefónico:</b>" + telefono + "<br><b>(X, Y):</b>" + X + "," + Y + "<br><b>Categoria:</b>" + categoria + "<br><button class='btn-danger btn-eliminar' onclick='eliminarCirculo(idElim)'><b>Eliminar</b></button></div>");
+            circulos.push(circle)
+
+            circle.hiddenId = circulos.length;
+            idElim = circle.hiddenId;
+
+            circle.on('click', function() {
+                idElim = circle.hiddenId;
+                console.log(idElim);
+            })
+
+            circle.addTo(mymap);
+            circle.openPopup();
+
+            console.log(circle)
+                // console.log(circle["_leaflet_id"])
+                // console.log(circle["remove"])
+
+            //Guardo los datos de los circulos en localStorage "circulos"
+            // circulos.push({"X":X,"Y":Y,"desc":nombre,"dir":direccion,"tel":telefono,"cat":categoria,"id":circle["_leaflet_id"]});
+            console.log(circulos)
+                // console.log(JSON.stringify(circulos))
+                // localStorage.setItem("circulos",JSON.stringify(circulos));
+        }
+
+        function eliminarCirculo(idElim) {
+            //Elimina el circulo            
+            circulos.forEach(circulo => {
+                if (circulo.hiddenId == idElim) {
+                    circulo.removeFrom(mymap);
+                }
+            });
+        }
+
+        function onMapClick(e) {
+            let coord = e.latlng.toString().substr(7)
+            coord = coord.substr(0, coord.length - 1)
+            coord = coord.split(",")
+            document.getElementById("coord").value = coord[0] + "," + coord[1];
+            document.getElementById("coord").setCustomValidity("");
+        }
+
+        mymap.on('click', onMapClick);
+
+        document.getElementById("map").onmousedown = function() {
+            document.getElementById("map").style.cursor = "grabbing";
+        }
+
+        document.getElementById("map").onmouseup = function() {
+            document.getElementById("map").style.cursor = "pointer";
         }
     </script>
     <style>
@@ -121,24 +192,39 @@
             border-radius: 5px;
         }
         
+        #pagina {
+            display: inline-block;
+            position: relative;
+            height: 100%;
+        }
+        
         #map {
             cursor: pointer;
         }
         
-        #categoria {
+        select {
             -webkit-appearance: none;
             -moz-appearance: none;
             -ms-appearance: none;
             appearance: none;
+            outline: 0;
             box-shadow: none;
             border: 0 !important;
             background-image: none;
+            /* background: url("flecha.png") 100% / 18% no-repeat #eee;*/
             background: url("https://cdn4.iconfinder.com/data/icons/blue-set/64/15-512.png") 100% / 18% no-repeat #eee;
         }
         
         #coord {
-            background: url("https://cdn4.iconfinder.com/data/icons/small-n-flat/24/map-512.png") 98% / 13% no-repeat #eee;
-            height: 45px;
+            background: url("https://cdn4.iconfinder.com/data/icons/small-n-flat/24/map-512.png") 98% / 16% no-repeat #eee;
+            font-size: 80%;
+            height: 40px;
+        }
+        
+        .btn-eliminar {
+            border-radius: 5px;
+            margin-left: 70%;
+            margin-top: 5%;
         }
     </style>
 </body>
