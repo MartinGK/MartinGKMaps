@@ -39,7 +39,7 @@ if (localStorage.getItem('circulos')) {
                 radius: 10,
             });
 
-            circle.bindPopup("<div><b>Descripción:</b>" + circulo.desc + "<br><b>Dirección:</b>" + circulo.dir + "<br><b>Telefónico:</b>" + circulo.tel + "<br><b>(X, Y):</b>" + circulo.X + "," + circulo.Y + "<br><b>Categoria:</b>" + circulo.cat + "<br><button class='btn-danger btn-eliminar' onclick='eliminarCirculo(" + circulo.id + ")'><b>Eliminar</b></button></div>");
+            circle.bindPopup("<div><b>Descripción: </b>" + circulo.desc + "<br><b>Dirección: </b>" + circulo.dir + "<br><b>Telefónico: </b>" + circulo.tel + "<br><b>(X, Y): </b>" + circulo.X + "," + circulo.Y + "<br><b>Categoria: </b>" + circulo.cat + "<br><button class='btn-danger btn-eliminar' onclick='eliminarCirculo(" + circulo.id + ")'><b>Eliminar</b></button></div>");
 
             circle.hiddenId = circulo.id;
 
@@ -98,6 +98,12 @@ function verificar(X, Y, nombre, direccion, telefono, categoria) {
     } else if (!(["Residencial", "Comercial", "Mixta"].includes(categoria))) {
         // alert("Error, revisar categoria:\n " + categoria);
         return false;
+    } else if (nombre.length == 0) {
+        // alert("Error, revisar categoria:\n " + categoria);
+        return false;
+    } else if (direccion.length == 0) {
+        // alert("Error, revisar categoria:\n " + categoria);
+        return false;
     } else {
         return true;
     }
@@ -136,8 +142,11 @@ function agregarCirculo(X, Y, nombre, direccion, telefono, categoria) {
         lastId++;
         idElim = circle.hiddenId;
 
+        if (telefono.length == 0) {
+            telefono = "-"
+        }
         //Le agrego el Popup
-        circle.bindPopup("<div><b>Descripción:</b>" + nombre + "<br><b>Dirección:</b>" + direccion + "<br><b>Telefónico:</b>" + telefono + "<br><b>(X, Y):</b>" + X + "," + Y + "<br><b>Categoria:</b>" + categoria + "<br><button class='btn-danger btn-eliminar' onclick='eliminarCirculo(idElim)'><b>Eliminar</b></button></div>");
+        circle.bindPopup("<div><b>Descripción: </b>" + nombre + "<br><b>Dirección: </b>" + direccion + "<br><b>Telefónico: </b>" + telefono + "<br><b>(X, Y): </b>" + X + "," + Y + "<br><b>Categoria: </b>" + categoria + "<br><button class='btn-danger btn-eliminar' onclick='eliminarCirculo(idElim)'><b>Eliminar</b></button></div>");
 
 
         //Setea el id a eliminar
