@@ -23,8 +23,8 @@
                 <div id="map" class="h-100"></div>
             </div>
             <div class="col-3 p-0">
-                <form action="#" class="float-right py-4 px-5 formulario w-100 h-100 m-0" role="form" id="formulario">
-                    <div class="form-group">
+                <form action="#" class="float-right py-4 px-5 formulario w-100 h-100 m-auto" role="form" id="formulario">
+                    <div class="form-group ">
                         <label for="nombre">Nombre</label>
                         <input class="form-control" id="nombre" value="Martin" placeholder="ej:Av. E. Madero 1020" required>
                     </div>
@@ -84,7 +84,7 @@
     "tel": "Ej.: 1131011879"
 }, ... ]                   </textarea>
                     <br>
-                    <p>¡También puedes <span>Descargar</span> el JSON de las marcas actuales!</p>
+                    <p>¡También puedes <a id="descargarJson">Descargar</a> el JSON de las marcas actuales!</p>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="uploadJson">Upload</span>
@@ -94,11 +94,6 @@
                             <label class="custom-file-label" for="jsonFile" id="jsonFileLabel">Choose file</label>
                         </div>
                     </div>
-                    <!-- </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" id="cargarJson">Cargar</button>
-                    <button type="button" class="btn btn-warning" id="descargarjson">Descargar</button>
-                </div> -->
                 </div>
             </div>
         </div>
@@ -279,6 +274,22 @@
                     alert("Primero seleccione el archivo")
                 }
             }
+            //Descargar Json
+            document.getElementById("descargarJson").addEventListener("click", function() {
+                if (circulos.length) {
+                    circulosAux = circulos;
+                    circulosAux.forEach(circulo => {
+                        delete circulo["id"]
+                    });
+                    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(circulosAux));
+                    var dlAnchorElem = document.getElementById('descargarJson');
+                    dlAnchorElem.setAttribute("href", dataStr);
+                    dlAnchorElem.setAttribute("download", "points.json");
+                    dlAnchorElem.click();
+                } else {
+                    alert("No hay puntos en el mapa para descargar.")
+                }
+            });
         </script>
         <style>
             .formulario {
@@ -344,6 +355,18 @@
             
             #uploadJson {
                 cursor: pointer;
+            }
+            
+            #descargarJson {
+                cursor: pointer;
+                text-decoration: rgb(255, 153, 37) underline;
+                color: rgb(255, 153, 37);
+            }
+            
+            #descargarJson:hover {
+                cursor: pointer;
+                text-decoration: rgb(194, 116, 28) underline;
+                color: rgb(194, 116, 28);
             }
         </style>
 </body>
