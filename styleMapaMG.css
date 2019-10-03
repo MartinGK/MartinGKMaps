@@ -1,0 +1,82 @@
+
+.formulario {
+    background: #DDD !important;
+}
+
+.btn_form {
+    font-family: sans-serif;
+    padding: 10px, 10px, 10px, 10px;
+    border-radius: 5px;
+}
+
+#map {
+    cursor: pointer;
+}
+
+#categoria {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    box-shadow: none;
+    border: 0 !important;
+    background-image: none;
+    background: url("https://cdn4.iconfinder.com/data/icons/blue-set/64/15-512.png") 100% / 18% no-repeat #eee;
+}
+
+#coord {
+    background: url("https://cdn4.iconfinder.com/data/icons/small-n-flat/24/map-512.png") 98% / 13% no-repeat #eee;
+    height: 45px;
+}
+
+.btn-eliminar {
+    border-radius: 5px;
+    margin-left: 70%;
+    margin-top: 5%;
+}
+
+.templateJson {
+    width: 100%;
+    height: 13em;
+}
+
+#telefono,
+#nombre,
+#direccion {
+    background: #eee !important;
+}
+.btn-warning{
+    cursor:pointer !important;
+    font-weight: 300;
+    color: white;
+    background: rgb(255, 153, 37);
+    border: rgb(255, 153, 37);
+}
+.btn-warning:hover{
+    font-weight: 300;
+    border: rgb(194, 116, 28);
+    color: white;
+    background: rgb(194, 116, 28);
+}
+#uploadJson{
+    cursor:pointer !important;
+}
+#uploadJson:hover{
+    background: #c7cace;
+}
+#jsonFile{
+    cursor: selecter !important;
+}
+#jsonFile:hover{
+    background: #c7cace;
+}
+#descargarJson{
+    cursor: pointer;
+    text-decoration: rgb(255, 153, 37) underline;
+    color:  rgb(255, 153, 37) ;
+}
+#descargarJson:hover{
+    cursor:pointer;
+    text-decoration: rgb(194, 116, 28) underline;
+    color: rgb(194, 116, 28); 
+}

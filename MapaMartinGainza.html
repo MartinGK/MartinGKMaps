@@ -1,0 +1,111 @@
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script> -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
+    <!-- Leaflet javascript -->
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
+    <!-- Mi Css -->
+    <link rel="stylesheet" href="styleMapaMG.css">
+    <!-- Icono -->
+    <!-- <link rel="icon" type="image/png" href="https://media.licdn.com/dms/image/C560BAQFXcmyef9wf3Q/company-logo_200_200/0?e=2159024400&v=beta&t=I9S6EY5to84ZPbL2lo2yvDqqhpBN-hAkv2Uj2x9XjGI" /> -->
+    <link rel="icon" type="image/png" href="https://cdn3.iconfinder.com/data/icons/unigrid-phantom-science-vol-1/60/003_042_planet_earth_globe_world_worldwide_space_cosmos_science_solar_system-512.png" />
+    <title>Aeroterra Test</title>
+</head>
+
+<body>
+    <div class="container p-0 m-0 mw-100">
+        <div class="row w-100 h-100 m-0">
+            <div class="col-9 p-0">
+                <div id="map" class="h-100"></div>
+            </div>
+            <div class="col-3 p-0">
+                <form action="#" class="float-right py-4 px-5 formulario w-100 h-100 m-auto" role="form" id="formulario">
+                    <div class="form-group ">
+                        <label for="nombre">Nombre</label>
+                        <input class="form-control" id="nombre" placeholder="ej: AEROTERRA S.A." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="direccion">Dirección</label>
+                        <input class="form-control" id="direccion" placeholder="ej: Av. Eduardo Madero 1020" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input class="form-control" id="telefono" placeholder="ej: 54 9 11 5272 0900">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="categoria">Categoría</label>
+                        <select class="form-control select" id="categoria" title="Seleccionar" required>
+                        <option value="" disabled selected>Seleccionar</option>
+                        <option>Comercial</option>
+                        <option>Residencial</option>
+                        <option>Mixta</option>
+                    </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="coord">Coord.</label>
+                        <input class="form-control" id="coord" placeholder="Click en el mapa!" required>
+                    </div>
+                    <button value="JSON" class="float-left btn btn-warning btn_form" data-toggle="modal" data-target="#Json">JSON</button>
+                    <div class="form-group">
+                        <input type="submit" id="agregar" value="Agregar" class="float-right btn btn-success btn_form" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="Json" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">JSON</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body">
+                    <p>Puede cargar un JSON con la siguiente estructura por cada marcador:</p>
+                    <textarea class="templateJson form-control" rows="8">
+[{
+    "X": "-34.597875",
+    "Y": "-58.369434",
+    "cat": "Comercial",
+    "desc": "AEROTERRA S.A.",
+    "dir": "Av. E. Madero 1020",
+    "tel": "1131011879"
+}, ... ]                   </textarea>
+                    <br>
+                    <p>¡También puedes <a id="descargarJson">Descargar</a> el JSON de las marcas actuales!</p>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="uploadJson" data-dismiss="modal">Upload</span>
+                        </div>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="jsonFile" aria-describedby="uploadJson">
+                            <label class="custom-file-label" for="jsonFile" id="jsonFileLabel">Choose file</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Script del mapa -->
+        <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
+        <!-- Mi Javascript -->
+        <script src="scriptMapaMG.js"></script>
+</body>
+
+</html>
