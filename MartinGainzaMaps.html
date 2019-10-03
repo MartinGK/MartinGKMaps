@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- bootstrap -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script> -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- Leaflet CSS -->
@@ -76,18 +76,18 @@
                     <p>Puede cargar un JSON con la siguiente estructura por cada marcador:</p>
                     <textarea class="templateJson form-control" rows="8">
 [{
-    "X": "Ej.: -34.597875",
-    "Y": "Ej.: -58.369434",
-    "cat": "Comercial/Residencial/Mixta",
-    "desc": "Ej.: Av. E. Madero 1020",
-    "dir": "Ej.: Av. E. Madero 1020",
-    "tel": "Ej.: 1131011879"
+    "X": "-34.597875",
+    "Y": "-58.369434",
+    "cat": "Comercial",
+    "desc": "Av. E. Madero",
+    "dir": "Av. E. Madero 1020",
+    "tel": "1131011879"
 }, ... ]                   </textarea>
                     <br>
                     <p>¡También puedes <a id="descargarJson">Descargar</a> el JSON de las marcas actuales!</p>
                     <div class="input-group">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="uploadJson">Upload</span>
+                            <span class="input-group-text" id="uploadJson" data-dismiss="modal">Upload</span>
                         </div>
                         <div class="custom-file">
                             <input type="file" class="custom-file-input" id="jsonFile" aria-describedby="uploadJson">
@@ -100,7 +100,9 @@
         <!-- Script del mapa -->
         <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
         <script>
-            //Verificacion de existencia del ultimo id en localStorage
+            /************************************************************************************************************/
+            /***********************Verificacion de existencia del ultimo id en localStorage*****************************/
+            /************************************************************************************************************/
             if (localStorage.getItem('lastId')) {
                 var lastId = localStorage.getItem('lastId')
                     // lastId = 0;
@@ -109,7 +111,9 @@
             }
             var idElim = lastId;
             var CirculosEnMapa = [];
-            //Creacion del mapa
+            /**************************************************************/
+            /***********************Creacion del mapa**********************/
+            /**************************************************************/
             var mymap = L.map('map').setView([-34.5966417, -58.374097], 16);
             L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
                 maxZoom: 18,
@@ -118,7 +122,9 @@
                     'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
                 id: 'mapbox.streets'
             }).addTo(mymap);
-            //Verificacion de existencia de circulos en localStorage
+            /***************************************************************************************************/
+            /***********************Verificacion de existencia de circulos en localStorage**********************/
+            /***************************************************************************************************/
             if (localStorage.getItem('circulos')) {
                 var circulos = JSON.parse(localStorage.getItem('circulos'))
                     // var circulos = []    
@@ -138,16 +144,21 @@
             } else {
                 var circulos = [];
             }
-            //Verificaciones 1
+            /*************************************************************/
+            /***********************Verificaciones 1**********************/
+            /*************************************************************/
             document.getElementById("telefono").onchange = function() {
-                    if ((document.getElementById("telefono").value).match(/[^0-9\s-]/g) != null) {
-                        console.log((document.getElementById("telefono").value).match(/[^0-9\s-]/g))
-                        document.getElementById("telefono").setCustomValidity("El telefono permite solo numeros");
-                    } else {
-                        document.getElementById("telefono").setCustomValidity("");
-                    }
+                if ((document.getElementById("telefono").value).match(/[^0-9\s-]/g) != null) {
+                    console.log((document.getElementById("telefono").value).match(/[^0-9\s-]/g))
+                    document.getElementById("telefono").setCustomValidity("El telefono permite solo numeros");
+                } else {
+                    document.getElementById("telefono").setCustomValidity("");
                 }
-                //Verificaciones 2
+            }
+
+            /*************************************************************/
+            /***********************Verificaciones 2**********************/
+            /*************************************************************/
             document.getElementById("coord").onchange = function() {
                 let analizar = document.getElementById("coord").value;
                 if (analizar.split(",").length != 2) {
@@ -163,51 +174,80 @@
                     }
                 }
             };
-            //Toma de datos
-            document.getElementById("agregar").onclick = function() {
-                    let nombre = document.getElementById("nombre").value
-                    let direccion = document.getElementById("direccion").value
-                    let telefono = document.getElementById("telefono").value
-                    let categoria = document.getElementById("categoria").value
-                    let coord = (document.getElementById("coord").value).split(",")
-                    agregarCirculo(coord[0], coord[1], nombre, direccion, telefono, categoria);
+            /******************************************************************/
+            /***********************Verificacion de Datos**********************/
+            /******************************************************************/
+            function verificar(X, Y, nombre, direccion, telefono, categoria) {
+                if (parseFloat(X) > 180 || parseFloat(X) < -180 || parseFloat(Y) > 90 || parseFloat(Y) < -90) {
+                    alert("Error, revisar float/s. (" + X + " / " + Y + ")")
+                    return false
+                } else if (telefono.match(/[^0-9\s-]/g) != null) {
+                    alert("Error, revisar telefono/s." + telefono)
+                    return false
+                } else if (!(["Residencial", "Comercial", "Mixta"].includes(categoria))) {
+                    alert("Error, revisar categoria: " + categoria)
+                    return false
+                } else {
+                    return true
                 }
-                //Funcion para agregar circulos con el submit
-            function agregarCirculo(X, Y, nombre, direccion, telefono, categoria) {
-                var circle = L.circle([parseFloat(X), parseFloat(Y)], {
-                    color: 'red',
-                    fillColor: '#8400D3',
-                    fillOpacity: 0.5,
-                    radius: 10,
-                });
-                circle.hiddenId = lastId;
-                lastId++;
-                idElim = circle.hiddenId;
-                //NO ANDA EL circulo.idElim ctrl +z y probar mas arribva
-                circle.bindPopup("<div><b>Descripción:</b>" + nombre + "<br><b>Dirección:</b>" + direccion + "<br><b>Telefónico:</b>" + telefono + "<br><b>(X, Y):</b>" + X + "," + Y + "<br><b>Categoria:</b>" + categoria + "<br><button class='btn-danger btn-eliminar' onclick='eliminarCirculo(idElim)'><b>Eliminar</b></button></div>");
-                //Setea el id a eliminar
-                circle.on('click', function() {
-                        idElim = circle.hiddenId;
-                    })
-                    //Los guarda para otra para el localStorage
-                circulos.push({
-                    "X": X,
-                    "Y": Y,
-                    "desc": nombre,
-                    "dir": direccion,
-                    "tel": telefono,
-                    "cat": categoria,
-                    "id": circle.hiddenId
-                });
-                console.log(circulos[0])
-                    //Los guarda para poder eliminarlos despues
-                CirculosEnMapa.push(circle);
-                localStorage.setItem("circulos", JSON.stringify(circulos))
-                localStorage.setItem("lastId", lastId);
-                circle.addTo(mymap);
-                circle.openPopup();
             }
-            //Funcion para eliminar circulos
+            /**********************************************************/
+            /***********************Toma de datos**********************/
+            /**********************************************************/
+            document.getElementById("agregar").onclick = function() {
+                let nombre = document.getElementById("nombre").value
+                let direccion = document.getElementById("direccion").value
+                let telefono = document.getElementById("telefono").value
+                let categoria = document.getElementById("categoria").value
+                let coord = (document.getElementById("coord").value).split(",")
+                agregarCirculo(coord[0], coord[1], nombre, direccion, telefono, categoria);
+            };
+            /****************************************************************************************/
+            /***********************Funcion para agregar circulos con el submit**********************/
+            /****************************************************************************************/
+            function agregarCirculo(X, Y, nombre, direccion, telefono, categoria) {
+                //Verificacion de Datos
+                if (verificar(X, Y, nombre, direccion, telefono, categoria)) {
+                    var circle = L.circle([parseFloat(X), parseFloat(Y)], {
+                        color: 'red',
+                        fillColor: '#8400D3',
+                        fillOpacity: 0.5,
+                        radius: 10,
+                    });
+                    circle.hiddenId = lastId;
+                    lastId++;
+                    idElim = circle.hiddenId;
+
+                    //Le agrego el Popup
+                    circle.bindPopup("<div><b>Descripción:</b>" + nombre + "<br><b>Dirección:</b>" + direccion + "<br><b>Telefónico:</b>" + telefono + "<br><b>(X, Y):</b>" + X + "," + Y + "<br><b>Categoria:</b>" + categoria + "<br><button class='btn-danger btn-eliminar' onclick='eliminarCirculo(idElim)'><b>Eliminar</b></button></div>");
+                    //Setea el id a eliminar
+                    circle.on('click', function() {
+                            idElim = circle.hiddenId;
+                        })
+                        //Los guarda para otra para el localStorage
+                    circulos.push({
+                        "X": X,
+                        "Y": Y,
+                        "desc": nombre,
+                        "dir": direccion,
+                        "tel": telefono,
+                        "cat": categoria,
+                        "id": circle.hiddenId
+                    });
+                    console.log(circulos[0])
+                        //Los guarda para poder eliminarlos despues
+                    CirculosEnMapa.push(circle);
+                    localStorage.setItem("circulos", JSON.stringify(circulos))
+                    localStorage.setItem("lastId", lastId);
+                    circle.addTo(mymap);
+                    circle.openPopup();
+                } else {
+                    alert("No se agrego el punto.")
+                }
+            }
+            /***************************************************************************/
+            /***********************Funcion para eliminar circulos**********************/
+            /***************************************************************************/
             function eliminarCirculo(idElim) {
                 //Elimina el circulo            
                 CirculosEnMapa.forEach(circulo => {
@@ -223,31 +263,36 @@
                 // circulos = []
                 localStorage.setItem("circulos", JSON.stringify(circulos))
             }
-            //Funcion establece la posición al clickear en el mapa.
-            function onMapClick(e) {
+            /**************************************************************************************************/
+            /***********************Funcion establece la posición al clickear en el mapa.**********************/
+            /**************************************************************************************************/
+            mymap.on('click', function onMapClick(e) {
+                console.log(e.latlng.toString())
                 let coord = e.latlng.toString().substr(7)
                 coord = coord.substr(0, coord.length - 1)
                 coord = coord.split(",")
                 document.getElementById("coord").value = coord[0] + "," + coord[1];
                 document.getElementById("coord").setCustomValidity("");
-            }
-            //Asignacion de la funcion onMapClick
-            mymap.on('click', onMapClick);
-            //Manejo de eventos para que el puntero cambie de forma a "grabbing" cuando se arrastra
+            });
+            /**********************************************************************************************************************************/
+            /***********************Manejo de eventos para que el puntero cambie de forma a "grabbing" cuando se arrastra**********************/
+            /**********************************************************************************************************************************/
             document.getElementById("map").onmousedown = function() {
                 document.getElementById("map").style.cursor = "grabbing";
             }
             document.getElementById("map").onmouseup = function() {
                     document.getElementById("map").style.cursor = "pointer";
                 }
-                //Carga de File JSon        
-            document.getElementById("uploadJson").addEventListener("click", handleFiles, false);
+                /*************************************************************************/
+                /***********************Carga de marcadores por JSon**********************/
+                /*************************************************************************/
             document.getElementById("jsonFile").addEventListener("change", function() {
                 var file = document.getElementById("jsonFile").files[0];
                 if (file) {
                     document.getElementById("jsonFileLabel").innerHTML = file.name;
                 }
             });
+            document.getElementById("uploadJson").addEventListener("click", handleFiles, false);
 
             function handleFiles() {
                 var file = document.getElementById("jsonFile").files[0];
@@ -262,7 +307,6 @@
                         }
                         if (circulosNuevos) {
                             circulosNuevos.forEach(circulo => {
-                                //Faltaria hacer la verificacion del circulo.cat
                                 agregarCirculo(circulo.X, circulo.Y, circulo.desc, circulo.dir, circulo.tel, circulo.cat);
                             });
                         }
@@ -274,7 +318,9 @@
                     alert("Primero seleccione el archivo")
                 }
             }
-            //Descargar Json
+            /***********************************************************/
+            /***********************Descargar Json**********************/
+            /***********************************************************/
             document.getElementById("descargarJson").addEventListener("click", function() {
                 if (circulos.length) {
                     circulosAux = circulos;
@@ -340,6 +386,7 @@
             }
             
             .btn-warning {
+                cursor: pointer !important;
                 font-weight: 300;
                 color: white;
                 background: rgb(255, 153, 37);
@@ -354,7 +401,19 @@
             }
             
             #uploadJson {
-                cursor: pointer;
+                cursor: pointer !important;
+            }
+            
+            #uploadJson:hover {
+                background: #c7cace;
+            }
+            
+            #jsonFile {
+                cursor: selecter !important;
+            }
+            
+            #jsonFile:hover {
+                background: #c7cace;
             }
             
             #descargarJson {
